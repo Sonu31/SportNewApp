@@ -1,22 +1,39 @@
+To evaluate your ability to integrate APIs, manage local database storage, and implement search functionality in an Android application.
+
+Task Description:
+Create an Android application using Kotlin as the programming language and add the required dependencies. Create a listview that fetches data from the API and displays it in a Recyclerview. The application should store data locally using a local database (e.g., Room DB or SQLite) to ensure offline access. Additionally, implement a search functionality to filter the displayed data.
+
 Requirements:
+**API Integration:**
 
-1) User Interface:
-   1.1) The main screen should display a list of trending sports news articles.
-   1.2) Include options to filter news by sport (e.g., football, basketball, cricket) and search for specific news articles.
-   1.3) Display news articles in a readable format, with options to view the full article and share articles with others.
+       Fetch data from a given REST API endpoint.
+       Display the fetched data in a list format.
+       Use URLSession or a third-party library like Retrofit for network requests.
+       Parse the JSON response and map it to model objects.
+      
+ **Local Database Storage:**
 
-2) News Data Integration:
-   2.1) Integrate with a sports news free API (e.g., ESPN API, BBC Sport API) to fetch sports news articles from different sources.
-   2.2) Handle network requests asynchronously and cache news data locally for offline access.
+         Save the fetched data locally using Room DB or SQLite.
+         Implement logic to check internet connectivity:
+          If the device is online, fetch data from the API and update the local database.
+          If the device is offline, load data from the local database.
+**Data Deletion:**
 
-3) User Experience Enhancements:
-   3.1) Implement a clean and intuitive user interface with smooth transitions and animations.
-   3.2) Provide options for users to customize the app's theme or display preferences.
-   3.3) Include support for dark mode and other accessibility features.
 
-4) Code Quality:
-   4.1) Follow Android development best practices and guidelines.
-   4.2) Organize your code in a modular and maintainable manner.
-   4.3) Utilize appropriate design patterns (e.g., MVVM, MVP).
-   4.4) Write clean, readable, and well-commented code.
-   4.5) Handle errors and exceptions gracefully.
+          Allow users to delete items from the list.
+           Ensure that deletions are reflected both in the UI and in the local database.
+
+**Search Functionality:**
+
+         Add a UISearchBar or UISearchController to the view controller.
+         Implement the necessary delegate methods to filter the data based on the search query.
+         Update the list view to display the filtered results.
+
+**Evaluation Criteria:**
+
+       Code Quality: Clean, readable, and well-structured code.
+       API Integration: Correct implementation of network requests and JSON parsing.
+       Local Storage: Proper setup and usage of Room DB or SQLite.
+       Offline Functionality: Ability to handle offline scenarios and load data from the local database.
+       Search Functionality: Effective and responsive search implementation.
+       UI/UX: User-friendly interface and smooth navigation.
