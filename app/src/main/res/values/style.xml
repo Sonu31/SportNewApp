@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.Theme.NewsApps" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/white</item>         // change status bar bg color
+        <item name="android:navigationBarColor">@color/white</item>     //change Navgation bar bg color
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="textColor">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <!--    MaterialCardView-->
+    <style name="cardColor" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
+
+
+
+
+
+
+
+</resources>
