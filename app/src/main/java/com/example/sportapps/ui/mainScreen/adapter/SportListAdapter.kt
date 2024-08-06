@@ -1,51 +1,51 @@
 package com.example.sportapps.ui.mainScreen.adapter
+
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapps.databinding.RowItemBinding
 import com.example.sportapps.response.Data
-import com.example.sportapps.ui.mainScreen.MainActivity
 import com.example.sportapps.utils.ItemClickListener
 
 class SportListAdapter(
-    var list: List<Data>, var context: Context, private val onitemclicklistener: ItemClickListener
+    var list: List<Data>, var context: Context, private val onItemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<SportListAdapter.ViewHolder>(), Filterable {
 
-    var itemModelListFilter = ArrayList<Data>()
+    private var itemModelListFilter = ArrayList<Data>()
 
-    inner class ViewHolder(var bind: RowItemBinding, onitemclicklistener: ItemClickListener) :
-        RecyclerView.ViewHolder(bind.root) {
+    init {
+        itemModelListFilter.addAll(list)
     }
 
-    fun adapterSetData(itemModelList : ArrayList<Data>){
+    inner class ViewHolder(var bind: RowItemBinding) : RecyclerView.ViewHolder(bind.root) {
+        fun bind(data: Data) {
+            bind.nsrsSportId.text = data.nsrs_sport_id.toString()
+            bind.spNameid.text = data.sport_name
+            bind.rfSportDbName.text = data.rf_sport_db_name
+            bind.statusid.text = data.status
+            bind.deleteid.setOnClickListener {
+                onItemClickListener.onClick(data, adapterPosition)
+            }
+        }
+    }
+
+    fun updateData(itemModelList: List<Data>) {
         this.list = itemModelList
-        this.itemModelListFilter = itemModelList
+        itemModelListFilter.clear()
+        itemModelListFilter.addAll(itemModelList)
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(RowItemBinding.inflate(LayoutInflater.from(parent.context),parent,false), onitemclicklistener)
+        val binding = RowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val itemModels = list[position]
-
-//        Glide.with(context).load(list[position].strThumb)
-//            .placeholder(R.drawable.img)
-////            .thumbnail(Glide.with(context).load(R.raw.load))
-//            .into(holder.bind.imgid);
-        holder.bind.nsrsSportId.text = list[position].nsrs_sport_id.toString()
-        holder.bind.spNameid.text= list[position].sport_name
-        holder.bind.rfSportDbName.text= list[position].rf_sport_db_name
-        holder.bind.statusid.text= list[position].status
-        holder.bind.deleteid.setOnClickListener {
-            onitemclicklistener.onClick(itemModels,position)
-
-
-        }
+        holder.bind(list[position])
     }
 
     override fun getItemCount(): Int {
@@ -53,32 +53,27 @@ class SportListAdapter(
     }
 
     override fun getFilter(): Filter {
-        return object : Filter(){
-            override fun performFiltering(charsequence: CharSequence?): FilterResults {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence?): FilterResults {
                 val filterResults = FilterResults()
-                if (charsequence == null || charsequence.length<0){
+                if (charSequence.isNullOrEmpty()) {
                     filterResults.count = itemModelListFilter.size
                     filterResults.values = itemModelListFilter
-                }else{
-                    var serchr = charsequence.toString()
-                    val itemModel = ArrayList<Data>()
-                    for (item in itemModelListFilter){
-                        if (item.sport_name?.lowercase()?.contains(serchr.lowercase()) == true){
-                            itemModel.add(item)
-
-                        }
+                } else {
+                    val searchStr = charSequence.toString().lowercase()
+                    val filteredList = itemModelListFilter.filter {
+                        it.sport_name?.lowercase()?.contains(searchStr) == true
                     }
-                    filterResults.count = itemModel.size
-                    filterResults.values = itemModel
+                    filterResults.count = filteredList.size
+                    filterResults.values = filteredList
                 }
                 return filterResults
             }
 
-            override fun publishResults(p0: CharSequence?, filterResults: FilterResults?) {
-                list = filterResults!!.values as ArrayList<Data>
+            override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults?) {
+                list = filterResults?.values as List<Data>
                 notifyDataSetChanged()
             }
         }
-
     }
 }
